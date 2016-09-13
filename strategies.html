@@ -1,0 +1,123 @@
+﻿<html>
+<head>
+<title>Заглавия на стратегически документи</title>
+<script type="text/javascript">
+
+// F = feminine, M = maschuline, P = plural
+var chainable = ["подготовка/F", "стратегия/F", "методология/F", "концепция/F", "пътна карта/F", "план-програма/F", "програма/F", "политикa/F",
+	"екшън план/M", "анализ/M", "проект/M", "политики/P", "добри практики/P", "консултации/P"];
+
+var forOf = ["разширяване обхвата", "стандартизиране", "реализиране", "развитие", "изпълнение", "утвърждаване", "осъществяване"]; //за-х-на
+
+var preFinalizers = ["за реформа в", "в областта на", "в сферата на", "в"];
+var finalizers = ["администрацията", "електронното управление",
+	"сектор здравеопазване", "сектор правосъдие", "приходните администрации", "местната власт", "областните администрации", "централната администрация"];
+var finalizersWithoutPreFinalizers = ["гражданския сектор", "неправителствения сектор", "публичния сектор", "частния сектор"];
+
+// P = primary, S = secondary (can't start a sentence)
+var adjectives = ["структурен/P", "хоризонтален/P", "секторен/P", "стандартизиран/P", "национален/P", "ефективен/S", "устойчив/S", "интегриран/S"];
+
+window.onload = function(e) {
+	display(generate());
+}
+
+//Нормативна уредба
+
+function generate() {
+	var parts = rand(3) + 2;
+	var result = "";
+	var usedLinks = [];
+	var usedWords = [];
+	for (var i = 0; i < parts; i++) {
+		var c = getUnusedRandomElement(chainable, usedWords);
+		usedWords.push(c);
+		var useAdjective = false;
+		if (rand(2) == 0) {
+			useAdjective = true;
+		}
+		var genderNumber = c.substring(c.length - 1, c.length);
+		var word = c.substring(0, c.length - 2);
+		var adjective = "";
+		if (useAdjective) {
+			var adjMax = 7;
+			if (i == 0) { // if it's the first, exclude some adjectives
+				adjMax = 4;
+			}
+			var adjective = adjectives[rand(adjMax)];
+			adjective = adjective.substring(0, adjective.length - 2);
+			adjective = conjugateAdjective(adjective, genderNumber) + " ";
+		}
+		if (i != 0) { // "separator" phrases are inserted before every word, except initially
+			var link = getUnusedRandomElement(forOf, usedLinks);
+			usedLinks.push(link);
+			result += " за " + link + " на ";
+		}
+		result += adjective + word;
+	}
+
+	var usePrefinalizer = true;
+	if (rand(5) == 0) {
+		usePrefinalizer = false;
+	}
+	if (!usePrefinalizer) {
+		result += " в " + finalizersWithoutPreFinalizers[rand(finalizersWithoutPreFinalizers.length)];
+	} else {
+		result += " " + preFinalizers[rand(preFinalizers.length)] + " ";
+		result += finalizers[rand(finalizers.length)];
+	}
+	
+	return capitalizeFirstLetter(result);
+}
+function display(title) {
+	document.getElementById('title').innerHTML = title;
+	document.getElementById('share').innerHTML = "[tweet]";
+	document.getElementById('share').href = "https://twitter.com/intent/tweet?text=" + title + " via http://bozho.net/strategies.html";
+}
+function getUnusedRandomElement(array, used) {
+	var element = "";
+	do {
+		var idx = rand(array.length);
+		element = array[idx];
+	} while (used.indexOf(element) >=0 && array.length > used.length * 2);
+	// don't loop if there are too many used words
+	
+	return element;
+}
+
+function rand(upper) {
+	return Math.floor(Math.random() * upper);
+}
+function conjugateAdjective(adjective, genderNumber) {
+	var result = adjective;
+	if (adjective.endsWith("ен")) {
+		if (genderNumber == "F") {
+			result = result.replace("ен", "на");
+		} else if (genderNumber == "P") {
+			result = result.replace("ен", "ни");
+		}
+	} else if (adjective.endsWith("ан") || adjective.endsWith("в")) {
+		if (genderNumber == "F") {
+			result = result + "а";
+		} else if (genderNumber == "P") {
+			result = result + "и";
+		}
+	}
+	
+	return result;
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+</script>
+</head>
+<body>
+<h2>Заглавия на стратегически документи</h2>
+
+<input type="button" onclick="display(generate());" value="Генерирай" />
+
+<h2 id="title"></h2>
+
+<a target="_blank" id="share" href="https://twitter.com/intent/tweet?text="></a>
+</body>
+</html>

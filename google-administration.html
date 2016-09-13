@@ -1,0 +1,33 @@
+﻿<html>
+<head>
+<title>Ако Google беше държавната администрация</title>
+<script type="text/javascript">
+function preSearch() {
+	alert("Първо извършете плащане и въведете банковата референция в полето. Информация за плащането ще намерите в секция 'За граждани'");
+	document.getElementById("payment").style.display = "block";
+}
+</script>
+</head>
+<body>
+
+<img src="https://www.google.com/images/srpr/logo11w.png" width="269" height="95" style="vertical-align: middle;" /> държавна администрация
+<div>
+<a href="#" onclick="alert('Това пък какво ви интересува?')">Структура</a><br />
+<a href="#" onclick="alert('Закона за търсещите машини (ЗТМ) може да намерите в държавен вестник, бр.27 от 14 март 2014. А може и да не го намерите');">Нормативна уредба</a><br />
+<a href="#" onclick="alert('Трудът на живота на главния секретар')">Вътрешна нормативна уредба</a><br />
+<a href="#" onclick="alert('I find your interest in нормативна уредба disturbing...')">Друга нормативна уредба</a><br />
+<a href="#" onclick="alert('Секцията е временно недостъпна');">За граждани</a><br />
+<a href="#">Новини <span style="font-size: 10px;">(последно обновяване: 15.05.2011)</span></a><br />
+</div>
+
+<h2>ТУК НЕ Е ИНФОРМАЦИЯ</h2>
+<div align="right" style="margin-top: 200px;">
+	<input type="text" /><br />
+	<span id="payment" style="display: none;">банкова референция:<input type="text" /> <input type="button" value="Продължи по чл.47 ал.2 от ЗТМ" onclick="alert('Резултатите от търсенето ще бъдат изпратени по пощата в 30-дневен срок');"/></span>
+	<input type="button" value="Заяви търсене по чл.46 ал.3 т.2 от ЗТМ" onclick="preSearch();" />
+	<input type="button" value="Чувствам се късметлия, че познавам шефа" onclick="alert('Ше оправим работата...');"/>
+</div>
+
+<div align="center" style="margin-top: 50px; font-size: 9px;"><a href="http://twitter.com/bozhobg">by @bozhobg</a></div>
+</body>
+</html>
